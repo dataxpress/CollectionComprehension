@@ -7,6 +7,7 @@
 //
 
 #import "DXAppDelegate.h"
+#import "DXCollectionComprehensions.h"
 
 @implementation DXAppDelegate
 
@@ -18,38 +19,66 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [self examples];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+
+    
+    
+    
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
+
+-(void)examples
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    // example 1: convert a dict of keys/values to an encoded URL
+    NSDictionary* params = @{
+                                   @"username": @"test_user",
+                             @"favorite_color": @"blue",
+                                        @"age": @(99)};
+    
+    
+    NSString* encodedURL = [[params mapToArray:^NSObject *(Tuple *tuple) {
+        
+        // we're pretending that stringByAddingPercentEscape properly escapes URLs... which it technically does not... so substitute here your own real encoding code
+        NSObject* encodedValue = [[tuple.value description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        return [NSString stringWithFormat:@"%@=%@",tuple.key, encodedValue];
+        
+    }] componentsJoinedByString:@"&"];
+    
+    NSLog(@"Encoded URL is %@",encodedURL);
+    
+    
+    // example 2: filter a dict based on key name
+    NSDictionary* credentials = @{@"username": @"test_user",
+                                  @"password": @"P@ssw0rd!",
+                            @"password_hint" : @"Its the same password you use at the bank",
+                                     @"email": @"user@example.com"};
+    
+    NSDictionary* filteredCredentials = [credentials filter:^BOOL(Tuple *tuple) {
+        return [(NSString*)tuple.key rangeOfString:@"password"].location == NSNotFound;
+    }];
+    
+    NSLog(@"User's credentials are %@",filteredCredentials);
+    
+    
+    // example 3: filter an array of cities so that only those with length >= 5 and < 8 are present
+    NSArray* myStrings = @[@"Chicago", @"Los Angeles", @"Bern", @"Blythe", @"Miami", @"San Diego"];
+
+    NSArray* filteredStrings = [myStrings filter:^BOOL(NSObject *object, int index) {
+        int length = [(NSString*)object length];
+        return length >= 5 && length < 8;
+    }];
+    
+    NSLog(@"Filtered cities are %@",filteredStrings);
+    
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
 @end
