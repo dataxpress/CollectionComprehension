@@ -81,24 +81,28 @@
     // example 3: first-letter uppercase an array of strings using double-mapping
     NSArray* names = @[@"PRINCE", @"john Smith", @"JANE DOE", @"jIMMY jOHNS", @"john jacob jingleheimer schmidt", @"", @"k"];
     
+    // you would probably have this in a category or tucked away somewhere else...
+    NSString* (^capFirst)(NSString* string) = ^NSString*(NSString* string)
+    {
+        if(string.length == 0)
+        {
+            return @"";
+        }
+        else if(string.length == 1)
+        {
+            return [string uppercaseString];
+        }
+        else
+        {
+            return [NSString stringWithFormat:@"%@%@", [[string substringToIndex:1] uppercaseString], [[string substringFromIndex:1] lowercaseString]];
+        }
+    };
+    
     NSArray* namesCorrectCase = [names map:^NSObject *(NSObject *object, int index) {
         NSArray* parts = [(NSString*)object componentsSeparatedByString:@" "];
         
         NSArray* correctedParts = [parts map:^NSObject *(NSObject *object, int index) {
-            NSString* string = (NSString*)object;
-            
-            if(string.length == 0)
-            {
-                return @"";
-            }
-            else if(string.length == 1)
-            {
-                return [string uppercaseString];
-            }
-            else
-            {
-                return [NSString stringWithFormat:@"%@%@", [[string substringToIndex:1] uppercaseString], [[string substringFromIndex:1] lowercaseString]];
-            }
+            return capFirst((NSString*)object);
         }];
         
         return [correctedParts componentsJoinedByString:@" "];
