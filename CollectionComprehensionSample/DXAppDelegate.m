@@ -107,6 +107,15 @@
     
     NSLog(@"Names correct case are %@",namesCorrectCase);
     
+    
+    // example 3: filter all numbers from a set that are even
+    NSSet* someNumbers = [NSSet setWithObjects:@(1), @(2), @(5), @(100), @(87224), nil];
+    
+    NSSet* evenNumbers = [someNumbers filter:^BOOL(NSObject *object) {
+        return [(NSNumber*)object intValue] % 2 == 0;
+    }];
+    NSLog(@"Even numbers are %@",evenNumbers);
+    
 }
 
 

@@ -126,6 +126,47 @@
 
 @end
 
+#pragma mark - Set categories
+
+@implementation NSSet (Map)
+
+-(NSSet *)map:(ObjectToObjectBlock)mapFunction
+{
+    NSMutableSet* result = [[NSMutableSet alloc] init];
+
+    [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [result addObject:mapFunction(obj)];
+    }];
+    
+    NSSet* retVal = [NSSet setWithSet:result];
+    [result release];
+    return retVal;
+}
+
+@end
+
+@implementation NSSet (Filter)
+
+-(NSSet *)filter:(ObjectToBoolBlock)filterFunction
+{
+    NSMutableSet* result = [[NSMutableSet alloc] init];
+    
+    [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        if(filterFunction(obj))
+        {
+            [result addObject:obj];
+        }
+    }];
+    
+    NSSet* retVal = [NSSet setWithSet:result];
+    [result release];
+    return retVal;
+}
+
+
+
+@end
+
 #pragma mark - Tuple
 
 @implementation Tuple

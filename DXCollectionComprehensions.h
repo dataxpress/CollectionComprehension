@@ -14,9 +14,11 @@
 
 typedef Tuple* (^TupleToTupleBlock)(Tuple* tuple);
 typedef NSObject* (^TupleToObjectBlock)(Tuple* tuple);
+typedef NSObject* (^ObjectToObjectBlock)(NSObject* object);
 typedef NSObject* (^ObjectAndIndexToObjectBlock)(NSObject* object, int index);
 typedef BOOL (^TupleToBoolBlock)(Tuple* tuple);
 typedef BOOL (^ObjectAndIndexToBoolBlock)(NSObject* object, int index);
+typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 
 #pragma mark - Dictionary categories
 
@@ -60,6 +62,19 @@ typedef BOOL (^ObjectAndIndexToBoolBlock)(NSObject* object, int index);
 
 @end
 
+#pragma mark - Set categories
+
+@interface NSSet (Map)
+
+- (NSSet*)map:(ObjectToObjectBlock)mapFunction;
+
+@end
+
+@interface NSSet (Filter)
+
+- (NSSet*)filter:(ObjectToBoolBlock)filterFunction;
+
+@end
 
 #pragma mark - Tuple
 
