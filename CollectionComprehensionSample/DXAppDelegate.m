@@ -79,13 +79,14 @@
     NSLog(@"Filtered cities are %@",filteredStrings);
     
     // example 3: first-letter uppercase an array of strings using double-mapping
-    NSArray* names = @[@"john Smith", @"JANE DOE", @"jIMMY jOHNS"];
+    NSArray* names = @[@"PRINCE", @"john Smith", @"JANE DOE", @"jIMMY jOHNS", @"john jacob jingleheimer schmidt", @"", @"k"];
     
     NSArray* namesCorrectCase = [names map:^NSObject *(NSObject *object, int index) {
         NSArray* parts = [(NSString*)object componentsSeparatedByString:@" "];
         
         NSArray* correctedParts = [parts map:^NSObject *(NSObject *object, int index) {
             NSString* string = (NSString*)object;
+            
             if(string.length == 0)
             {
                 return @"";
