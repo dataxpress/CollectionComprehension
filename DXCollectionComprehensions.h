@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Tim Gostony. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 #pragma mark - Types
 
@@ -16,6 +16,7 @@ typedef Tuple* (^TupleToTupleBlock)(Tuple* tuple);
 typedef NSObject* (^TupleToObjectBlock)(Tuple* tuple);
 typedef NSObject* (^ObjectToObjectBlock)(NSObject* object);
 typedef NSObject* (^ObjectAndIndexToObjectBlock)(NSObject* object, int index);
+typedef NSArray* (^ObjectAndIndexToArrayBlock)(NSObject* object, int index);
 typedef BOOL (^TupleToBoolBlock)(Tuple* tuple);
 typedef BOOL (^ObjectAndIndexToBoolBlock)(NSObject* object, int index);
 typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
@@ -53,6 +54,14 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 @interface NSArray (Map)
 
 - (NSArray*)map:(ObjectAndIndexToObjectBlock)mapFunction;
+- (NSArray*)map:(ObjectAndIndexToObjectBlock)mapFunction onQueue:(dispatch_queue_t)queue;
+
+@end
+
+@interface NSArray (MapAndJoin)
+
+- (NSArray*)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction;
+- (NSArray*)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction onQueue:(dispatch_queue_t)queue;
 
 @end
 

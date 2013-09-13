@@ -96,23 +96,56 @@
 
 -(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction
 {
+    return [self map:mapFunction onQueue:dispatch_get_current_queue()];
+}
+
+-(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction onQueue:(dispatch_queue_t)queue
+{
     NSMutableArray* result = [[NSMutableArray alloc] init];
     
-    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [result addObject:mapFunction(obj, idx)];
-    }];
+    dispatch_apply(self.count, queue, ^(size_t index) {
+        [result addObject:mapFunction(self[(int)index], (int)index)];
+    });
     
     NSArray* retVal = [NSArray arrayWithArray:result];
     [result release];
     return retVal;
 }
 
+@end
+
+@implementation NSArray (MapAndJoin)
+
+-(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction
+{
+    return [self map:mapFunction onQueue:dispatch_get_current_queue()];
+}
+
+-(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction onQueue:(dispatch_queue_t)queue
+{
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    
+    dispatch_apply(self.count, queue, ^(size_t index) {
+        [result addObjectsFromArray:mapFunction(self[(int)index], (int)index)];
+    });
+    
+    NSArray* retVal = [NSArray arrayWithArray:result];
+    [result release];
+    return retVal;
+}
+
+@end
+
+
+
+@implementation NSArray (Filter)
+
 -(NSArray *)filter:(ObjectAndIndexToBoolBlock)filterFunction
 {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     
     [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if(filterFunction(obj, idx) == YES)
+        if(filterFunction(obj, (int)idx) == YES)
         {
             [result addObject:obj];
         }
