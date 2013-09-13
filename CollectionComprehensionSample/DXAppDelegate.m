@@ -140,7 +140,7 @@
     NSArray* primes = [numbers filter:^BOOL(NSObject *object, int index) {
         int number = [(NSNumber*)object intValue];
         
-        for(int i=2; i < number/2; i++)
+        for(int i=2; i <= number/2; i++)
         {
             if(number % i == 0)
             {
@@ -150,7 +150,7 @@
         return YES;
         
     }];
-    NSLog(@"First few primes were %@",[primes objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 10)]]);
+    NSLog(@"First few primes were %@",[[primes objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 15)]] componentsJoinedByString:@", "]);
     
     
     // example 6: split input values into individual strings, then return a flattened array of all parts
