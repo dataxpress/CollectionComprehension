@@ -48,7 +48,7 @@
 
 -(NSDictionary *)filter:(TupleToBoolBlock)filterFunction
 {
-    NSMutableDictionary* result = [NSMutableDictionary dictionary];
+    NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
     
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         Tuple* tuple = [[Tuple alloc] initWithValue:obj forKey:key];
@@ -96,19 +96,26 @@
 
 -(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction
 {
-    return [self map:mapFunction onQueue:dispatch_get_current_queue()];
+    dispatch_queue_t queue = dispatch_queue_create("map queue", DISPATCH_QUEUE_CONCURRENT);
+    return [self map:mapFunction onQueue:queue];
+    dispatch_release(queue);
 }
 
 -(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction onQueue:(dispatch_queue_t)queue
 {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
+
+    NSArray* retVal;
+    @synchronized(self)
+    {
+        id* results = malloc(self.count * sizeof(id));
+        dispatch_apply(self.count, queue, ^(size_t index) {
+            id obj = mapFunction(self[(int)index], (int)index);
+            results[index] = [obj retain];
+        });
+        retVal = [NSArray arrayWithObjects:results count:self.count];
+        free(results);
+    }
     
-    dispatch_apply(self.count, queue, ^(size_t index) {
-        [result addObject:mapFunction(self[(int)index], (int)index)];
-    });
-    
-    NSArray* retVal = [NSArray arrayWithArray:result];
-    [result release];
     return retVal;
 }
 
@@ -118,16 +125,25 @@
 
 -(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction
 {
-    return [self map:mapFunction onQueue:dispatch_get_current_queue()];
+
+    dispatch_queue_t queue = dispatch_queue_create("map and join queue", DISPATCH_QUEUE_CONCURRENT);
+    NSArray* result = [self map:mapFunction onQueue:queue];
+    dispatch_release(queue);
+    return result;
 }
 
 -(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction onQueue:(dispatch_queue_t)queue
 {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     
-    dispatch_apply(self.count, queue, ^(size_t index) {
-        [result addObjectsFromArray:mapFunction(self[(int)index], (int)index)];
-    });
+    NSArray* mapped = [self map:mapFunction onQueue:queue];
+    
+    // mapped is an array of arrays; join those arrays into one array
+    for(NSArray* array in mapped)
+    {
+        [result addObjectsFromArray:array];
+    }
+    
     
     NSArray* retVal = [NSArray arrayWithArray:result];
     [result release];
