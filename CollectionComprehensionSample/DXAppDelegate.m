@@ -99,6 +99,7 @@
     };
     
     NSArray* namesCorrectCase = [names map:^NSObject *(NSObject *object, int index) {
+        
         NSArray* parts = [(NSString*)object componentsSeparatedByString:@" "];
         
         NSArray* correctedParts = [parts map:^NSObject *(NSObject *object, int index) {
@@ -123,28 +124,17 @@
     
     // example 4: find the square root of an array of many many numbers, in parallel.
     NSMutableArray* numbers = [NSMutableArray array];
-    for(int i=0; i < 1500000; i++)
+    for(int i=0; i < 150000; i++)
     {
         [numbers addObject:[NSNumber numberWithFloat:(float)i]];
     }
-
-    NSLog(@"Starting root finding");
+    
     NSArray* roots = [numbers map:^NSObject *(NSObject *object, int index) {
         float num = [(NSNumber*)object floatValue];
-        return @(powf(sqrtf(num), 0.1));
+        return @(sqrtf(num));
     }];
-    NSLog(@"Ended concurrent root finding...");
-    NSLog(@"Starting serial root finding.");
-    NSMutableArray* results = [NSMutableArray array];
-    for(NSNumber* number in numbers)
-    {
-        float num = [number floatValue];
-        [results addObject: @(powf(sqrtf(num), 0.1))];
-    }
-    NSLog(@"Finished serial root finding");
 
     NSLog(@"Calculated %d roots.",roots.count);
-    
     
 }
 
