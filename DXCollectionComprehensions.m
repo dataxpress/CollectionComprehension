@@ -15,7 +15,7 @@
 -(NSDictionary *)map:(TupleToTupleBlock)mapFunction
 {
     
-    NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:self.count];
     
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [result addTuple:mapFunction([Tuple tupleWithValue:obj forKey:key])];
@@ -29,7 +29,7 @@
 
 -(NSArray *)mapToArray:(TupleToObjectBlock)mapFunction
 {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
+    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:self.count];
     
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         Tuple* tuple = [[Tuple alloc] initWithValue:obj forKey:key];
@@ -48,7 +48,7 @@
 
 -(NSDictionary *)filter:(TupleToBoolBlock)filterFunction
 {
-    NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:self.count];
     
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         Tuple* tuple = [[Tuple alloc] initWithValue:obj forKey:key];
@@ -141,7 +141,7 @@
 
 -(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction onQueue:(dispatch_queue_t)queue
 {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
+    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:self.count];
     
     NSArray* mapped = [self map:mapFunction onQueue:queue];
     
@@ -255,7 +255,7 @@
 
 -(NSSet *)map:(ObjectToObjectBlock)mapFunction
 {
-    NSMutableSet* result = [[NSMutableSet alloc] init];
+    NSMutableSet* result = [[NSMutableSet alloc] initWithCapacity:self.count];
     
     [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         [result addObject:mapFunction(obj)];
@@ -272,7 +272,7 @@
 
 -(NSSet *)filter:(ObjectToBoolBlock)filterFunction
 {
-    NSMutableSet* result = [[NSMutableSet alloc] init];
+    NSMutableSet* result = [[NSMutableSet alloc] initWithCapacity:self.count];
     
     [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         if(filterFunction(obj))
