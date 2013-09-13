@@ -136,7 +136,24 @@
     NSLog(@"Calculated %d roots.",roots.count);
     
     
-    // example 5: split input values into individual strings, then return a flattened array of all parts
+    // example 5: filter numbers by which is prime (naively) (in parallel)
+    NSArray* primes = [numbers filter:^BOOL(NSObject *object, int index) {
+        int number = [(NSNumber*)object intValue];
+        
+        for(int i=2; i < number/2; i++)
+        {
+            if(number % i == 0)
+            {
+                return NO;
+            }
+        }
+        return YES;
+        
+    }];
+    NSLog(@"First few primes were %@",[primes objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 10)]]);
+    
+    
+    // example 6: split input values into individual strings, then return a flattened array of all parts
     // a note: mapAndJoin's block takes in an object and returns an array, then combines all members of the resultant arrays into one array (in order).
     NSArray* colorGroups = @[@"blue cyan green", @"red brown orange", @"black white gray", @"rainbow"];
     
