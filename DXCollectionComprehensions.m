@@ -110,15 +110,16 @@
     {
         NSUInteger count = self.count;
         id* results = malloc(count * sizeof(id));
-        dispatch_apply(count, queue, ^(size_t index) {
+        dispatch_apply(count, queue, ^(size_t index)
+        {
             id obj = mapFunction(self[(int)index], (int)index);
             results[index] = [obj retain];
         });
         retVal = [NSArray arrayWithObjects:results count:count];
-        for(int i=0; i<count; i++)
+        dispatch_apply(count, queue, ^(size_t index)
         {
-            [results[i] release];
-        }
+            [results[index] release];
+        });
         free(results);
     }
     
