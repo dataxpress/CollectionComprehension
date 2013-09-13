@@ -72,6 +72,14 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 
 @end
 
+
+@interface NSArray (FilterFirstObject)
+
+- (NSObject*)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction;
+- (NSObject*)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue;
+
+@end
+
 #pragma mark - Set categories
 
 @interface NSSet (Map)

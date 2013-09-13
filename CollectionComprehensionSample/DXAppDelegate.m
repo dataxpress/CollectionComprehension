@@ -153,7 +153,16 @@
     NSLog(@"Found %d primes.",primes.count);
     
     
-    // example 6: split input values into individual strings, then return a flattened array of all parts
+    // example 6: find the first number divisible by 4 different numbers
+    NSNumber* leastCommonMultiplier = (NSNumber*)[numbers firstObjectMatchingFilter:^BOOL(NSObject *object, int index) {
+        int num = [(NSNumber*)object integerValue];
+        return num > 1 && (num % 5)  == 0 && (num % 6) == 0 && (num % 9) == 0 && (num % 16) == 0;
+    }];
+    NSLog(@"The first number divisible by 5, 6, 9, and 16 is %@",leastCommonMultiplier);
+    
+    
+    
+    // example 7: split input values into individual strings, then return a flattened array of all parts
     // a note: mapAndJoin's block takes in an object and returns an array, then combines all members of the resultant arrays into one array (in order).
     NSArray* colorGroups = @[@"blue cyan green", @"red brown orange", @"black white gray", @"rainbow"];
     

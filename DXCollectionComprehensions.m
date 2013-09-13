@@ -200,6 +200,55 @@
 
 @end
 
+
+
+@implementation NSArray (FilterFirstObject)
+
+-(NSObject *)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction
+{
+    dispatch_queue_t queue = dispatch_queue_create("filter first queue", DISPATCH_QUEUE_CONCURRENT);
+    NSObject* result = [self firstObjectMatchingFilter:filterFunction onQueue:queue];
+    dispatch_release(queue);
+    return result;
+}
+
+-(NSObject *)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue
+{
+    NSObject* retVal = nil;
+    @synchronized(self)
+    {
+        NSUInteger count = self.count;
+        id* results = malloc(count * sizeof(id));
+        __block int resultCount = 0;
+        dispatch_apply(count, queue, ^(size_t index)
+        {
+            if(resultCount == 0)
+            {
+                id obj = self[(int)index];
+                BOOL add = filterFunction(self[(int)index], (int)index);
+                if(add == YES)
+                {
+                   results[resultCount++] = [obj retain];
+                }
+            }
+        });
+        if(resultCount > 0)
+        {
+            retVal = [results[0] retain];
+        }
+        dispatch_apply(resultCount, queue, ^(size_t index)
+        {
+            [results[index] release];
+        });
+        free(results);
+    }
+    
+    return retVal;
+    
+}
+
+@end
+
 #pragma mark - Set categories
 
 @implementation NSSet (Map)
