@@ -150,7 +150,7 @@
         return YES;
         
     }];
-    NSLog(@"First few primes were %@",[[primes objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 15)]] componentsJoinedByString:@", "]);
+    NSLog(@"Found %d primes.",primes.count);
     
     
     // example 6: split input values into individual strings, then return a flattened array of all parts
