@@ -68,6 +68,7 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 @interface NSArray (Filter)
 
 - (NSArray*)filter:(ObjectAndIndexToBoolBlock)filterFunction;
+- (NSArray*)filter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue;
 
 @end
 

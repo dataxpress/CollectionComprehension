@@ -163,17 +163,37 @@
 
 -(NSArray *)filter:(ObjectAndIndexToBoolBlock)filterFunction
 {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    
-    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if(filterFunction(obj, (int)idx) == YES)
+    dispatch_queue_t queue = dispatch_queue_create("filter queue", DISPATCH_QUEUE_CONCURRENT);
+    NSArray* result = [self filter:filterFunction onQueue:queue];
+    dispatch_release(queue);
+    return result;
+}
+
+-(NSArray *)filter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue
+{    
+    NSArray* retVal;
+    @synchronized(self)
+    {
+        NSUInteger count = self.count;
+        id* results = malloc(count * sizeof(id));
+        __block int resultCount = 0;
+        dispatch_apply(count, queue, ^(size_t index)
         {
-            [result addObject:obj];
-        }
-    }];
+            id obj = self[(int)index];
+            BOOL add = filterFunction(self[(int)index], (int)index);
+            if(add == YES)
+            {
+                results[resultCount++] = [obj retain];
+            }
+        });
+        retVal = [NSArray arrayWithObjects:results count:resultCount];
+        dispatch_apply(resultCount, queue, ^(size_t index)
+        {
+            [results[index] release];
+        });
+        free(results);
+    }
     
-    NSArray* retVal = [NSArray arrayWithArray:result];
-    [result release];
     return retVal;
     
 }
