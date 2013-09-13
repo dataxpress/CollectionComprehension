@@ -133,8 +133,18 @@
         float num = [(NSNumber*)object floatValue];
         return @(sqrtf(num));
     }];
-
     NSLog(@"Calculated %d roots.",roots.count);
+    
+    
+    // example 5: split input values into individual strings, then return a flattened array of all parts
+    // a note: mapAndJoin's block takes in an object and returns an array, then combines all members of the resultant arrays into one array (in order).
+    NSArray* colorGroups = @[@"blue cyan green", @"red brown orange", @"black white gray", @"rainbow"];
+    
+    NSArray* allColors = [colorGroups mapAndJoin:^NSArray *(NSObject *object, int index) {
+        return [(NSString*)object componentsSeparatedByString:@" "];
+    }];
+    NSLog(@"All the colors are %@",allColors);
+    
     
 }
 
