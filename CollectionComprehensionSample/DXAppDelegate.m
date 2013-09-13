@@ -156,9 +156,9 @@
     // example 6: find the first number divisible by 4 different numbers
     NSNumber* leastCommonMultiplier = (NSNumber*)[numbers firstObjectMatchingFilter:^BOOL(NSObject *object, int index) {
         int num = [(NSNumber*)object integerValue];
-        return num > 1 && (num % 5)  == 0 && (num % 6) == 0 && (num % 9) == 0 && (num % 16) == 0;
+        return num > 1 && (num % 5)  == 0 && (num % 6) == 0 && (num % 11) == 0 && (num % 16) == 0;
     }];
-    NSLog(@"The first number divisible by 5, 6, 9, and 16 is %@",leastCommonMultiplier);
+    NSLog(@"The first number divisible by 5, 6, 11, and 16 is %@",leastCommonMultiplier);
     
     
     
