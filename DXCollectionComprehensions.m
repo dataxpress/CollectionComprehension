@@ -103,16 +103,21 @@
 
 -(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction onQueue:(dispatch_queue_t)queue
 {
-
+    
     NSArray* retVal;
     @synchronized(self)
     {
-        id* results = malloc(self.count * sizeof(id));
-        dispatch_apply(self.count, queue, ^(size_t index) {
+        NSUInteger count = self.count;
+        id* results = malloc(count * sizeof(id));
+        dispatch_apply(count, queue, ^(size_t index) {
             id obj = mapFunction(self[(int)index], (int)index);
             results[index] = [obj retain];
         });
-        retVal = [NSArray arrayWithObjects:results count:self.count];
+        retVal = [NSArray arrayWithObjects:results count:count];
+        for(int i=0; i<count; i++)
+        {
+            [results[i] release];
+        }
         free(results);
     }
     
@@ -125,9 +130,9 @@
 
 -(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction
 {
-
+    
     dispatch_queue_t queue = dispatch_queue_create("map and join queue", DISPATCH_QUEUE_CONCURRENT);
-    NSArray* result = [self map:mapFunction onQueue:queue];
+    NSArray* result = [self mapAndJoin:mapFunction onQueue:queue];
     dispatch_release(queue);
     return result;
 }
@@ -138,12 +143,10 @@
     
     NSArray* mapped = [self map:mapFunction onQueue:queue];
     
-    // mapped is an array of arrays; join those arrays into one array
     for(NSArray* array in mapped)
     {
         [result addObjectsFromArray:array];
     }
-    
     
     NSArray* retVal = [NSArray arrayWithArray:result];
     [result release];
@@ -182,7 +185,7 @@
 -(NSSet *)map:(ObjectToObjectBlock)mapFunction
 {
     NSMutableSet* result = [[NSMutableSet alloc] init];
-
+    
     [self enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         [result addObject:mapFunction(obj)];
     }];
