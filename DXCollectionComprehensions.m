@@ -97,8 +97,9 @@
 -(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction
 {
     dispatch_queue_t queue = dispatch_queue_create("map queue", DISPATCH_QUEUE_CONCURRENT);
-    return [self map:mapFunction onQueue:queue];
+    NSArray* result = [self map:mapFunction onQueue:queue];
     dispatch_release(queue);
+    return result;
 }
 
 -(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction onQueue:(dispatch_queue_t)queue
