@@ -232,24 +232,30 @@
     {
         NSUInteger count = self.count;
         id* results = malloc(count * sizeof(id));
-        __block int resultCount = 0;
+        memset(results, 0, count * sizeof(id));
+        __block int lowest = INT_MAX;
         dispatch_apply(count, queue, ^(size_t index)
         {
-            if(resultCount == 0)
+            if(index < lowest)
             {
                 id obj = self[(int)index];
                 BOOL add = filterFunction(self[(int)index], (int)index);
                 if(add == YES)
                 {
-                   results[resultCount++] = [obj retain];
+                    results[index] = [obj retain];
+                    lowest = index;
                 }
             }
         });
-        if(resultCount > 0)
+        // find the lowest index within count
+        for(int i=0; i < count && retVal == nil; i++)
         {
-            retVal = [results[0] retain];
+            if(results[i] != nil)
+            {
+                retVal = [results[i] retain];
+            }
         }
-        dispatch_apply(resultCount, queue, ^(size_t index)
+        dispatch_apply(count, queue, ^(size_t index)
         {
             [results[index] release];
         });
