@@ -176,22 +176,35 @@
     {
         NSUInteger count = self.count;
         id* results = malloc(count * sizeof(id));
-        __block int resultCount = 0;
         dispatch_apply(count, queue, ^(size_t index)
         {
             id obj = self[(int)index];
             BOOL add = filterFunction(self[(int)index], (int)index);
             if(add == YES)
             {
-                results[resultCount++] = [obj retain];
+                results[index] = [obj retain];
+            }
+            else
+            {
+                results[index] = nil;
             }
         });
-        retVal = [NSArray arrayWithObjects:results count:resultCount];
-        dispatch_apply(resultCount, queue, ^(size_t index)
+        id* newResults = malloc(count * sizeof(id));
+        int resultCount = 0;
+        for(int i=0; i < count; i++)
+        {
+            if(results[i] != nil)
+            {
+                newResults[resultCount++] = results[i];
+            }
+        }
+        retVal = [NSArray arrayWithObjects:newResults count:resultCount];
+        dispatch_apply(count, queue, ^(size_t index)
         {
             [results[index] release];
         });
         free(results);
+        free(newResults);
     }
     
     return retVal;
