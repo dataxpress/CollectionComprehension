@@ -375,6 +375,7 @@
 		4C1D6AA717E59CC6003B2C1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CollectionComprehensionSample.app/CollectionComprehensionSample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
@@ -383,6 +384,8 @@
 				GCC_PREFIX_HEADER = "CollectionComprehensionTests/CollectionComprehensionTests-Prefix.pch";
 				INFOPLIST_FILE = "CollectionComprehensionTests/CollectionComprehensionTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				"TEST_HOST[sdk=*]" = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -390,6 +393,7 @@
 		4C1D6AA817E59CC6003B2C1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CollectionComprehensionSample.app/CollectionComprehensionSample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
@@ -398,6 +402,7 @@
 				GCC_PREFIX_HEADER = "CollectionComprehensionTests/CollectionComprehensionTests-Prefix.pch";
 				INFOPLIST_FILE = "CollectionComprehensionTests/CollectionComprehensionTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -430,6 +435,7 @@
 				4C1D6AA817E59CC6003B2C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

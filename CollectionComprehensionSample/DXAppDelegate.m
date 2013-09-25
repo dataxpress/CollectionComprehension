@@ -36,6 +36,9 @@
 
 -(void)examples
 {
+    return;
+
+    
     // example 1: convert a dict of keys/values to an encoded URL
     NSDictionary* params = @{
                                    @"username": @"test_user",
@@ -78,6 +81,7 @@
     
     NSLog(@"Filtered cities are %@",filteredStrings);
     
+    
     // example 3: first-letter uppercase an array of strings using double-mapping
     NSArray* names = @[@"PRINCE", @"john Smith", @"JANE DOE", @"jIMMY jOHNS", @"john jacob jingleheimer schmidt", @"", @"k"];
     
@@ -117,9 +121,10 @@
     NSSet* someNumbers = [NSSet setWithObjects:@(1), @(2), @(5), @(100), @(87224), nil];
     
     NSSet* evenNumbers = [someNumbers filter:^BOOL(NSObject *object) {
-        return [(NSNumber*)object intValue] % 2 == 0;
+        return [(NSNumber*)object intValue] % 2 == 0 && arc4random() % 5 > -1;
     }];
     NSLog(@"Even numbers are %@",evenNumbers);
+    
     
     
     // example 4: find the square root of an array of many many numbers, in parallel.
@@ -128,6 +133,13 @@
     {
         [numbers addObject:[NSNumber numberWithFloat:(float)i]];
     }
+    
+    
+    // example 3.5, find all numbers not divisible by 5 (testing filter ordering)
+    NSObject* notFivable = [numbers firstObjectMatchingFilter:^BOOL(NSObject *object, int index) {
+        return [(NSNumber*)object integerValue]  > 10000 && [(NSNumber*)object integerValue] % 5 != 0;
+    }];
+    NSLog(@"The first non-fivable above 10k is: %@",notFivable);
     
     NSArray* roots = [numbers map:^NSObject *(NSObject *object, int index) {
         float num = [(NSNumber*)object floatValue];
