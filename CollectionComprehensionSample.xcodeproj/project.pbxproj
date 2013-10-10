@@ -17,13 +17,23 @@
 		4C17E1A417E245520064B54B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C17E1A317E245520064B54B /* Default@2x.png */; };
 		4C17E1A617E245520064B54B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C17E1A517E245520064B54B /* Default-568h@2x.png */; };
 		4C17E1AE17E2456C0064B54B /* DXCollectionComprehensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C17E1AD17E2456C0064B54B /* DXCollectionComprehensions.m */; };
-		4C1D6A9A17E59CC6003B2C1F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D6A9917E59CC6003B2C1F /* SenTestingKit.framework */; };
 		4C1D6A9B17E59CC6003B2C1F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C17E18F17E245520064B54B /* UIKit.framework */; };
 		4C1D6A9C17E59CC6003B2C1F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C17E19117E245520064B54B /* Foundation.framework */; };
 		4C1D6AA217E59CC6003B2C1F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D6AA017E59CC6003B2C1F /* InfoPlist.strings */; };
 		4C1D6AA517E59CC6003B2C1F /* CollectionComprehensionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1D6AA417E59CC6003B2C1F /* CollectionComprehensionTests.m */; };
-		4C1D6AAA17E59E69003B2C1F /* DXCollectionComprehensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C17E1AD17E2456C0064B54B /* DXCollectionComprehensions.m */; };
+		4CCF65F51805DDD80050CAE4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CCF65D7180505290050CAE4 /* XCTest.framework */; };
+		4CCF65F61805DFB80050CAE4 /* DXCollectionComprehensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C17E1AD17E2456C0064B54B /* DXCollectionComprehensions.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4CCF65F31805DDCA0050CAE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C17E18417E245520064B54B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C17E18B17E245520064B54B;
+			remoteInfo = CollectionComprehensionSample;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4C17E18C17E245520064B54B /* CollectionComprehensionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionComprehensionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,13 +51,15 @@
 		4C17E1A517E245520064B54B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4C17E1AC17E2456C0064B54B /* DXCollectionComprehensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXCollectionComprehensions.h; sourceTree = SOURCE_ROOT; };
 		4C17E1AD17E2456C0064B54B /* DXCollectionComprehensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXCollectionComprehensions.m; sourceTree = SOURCE_ROOT; };
-		4C1D6A9817E59CC6003B2C1F /* CollectionComprehensionTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionComprehensionTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C1D6A9917E59CC6003B2C1F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		4C1D6A9817E59CC6003B2C1F /* CollectionComprehensionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionComprehensionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C1D6A9F17E59CC6003B2C1F /* CollectionComprehensionTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CollectionComprehensionTests-Info.plist"; sourceTree = "<group>"; };
 		4C1D6AA117E59CC6003B2C1F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4C1D6AA317E59CC6003B2C1F /* CollectionComprehensionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionComprehensionTests.h; sourceTree = "<group>"; };
 		4C1D6AA417E59CC6003B2C1F /* CollectionComprehensionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionComprehensionTests.m; sourceTree = "<group>"; };
 		4C1D6AA617E59CC6003B2C1F /* CollectionComprehensionTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CollectionComprehensionTests-Prefix.pch"; sourceTree = "<group>"; };
+		4CCF65D7180505290050CAE4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		4CCF6600180655DA0050CAE4 /* CollectionComprehensionPerformanceTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionComprehensionPerformanceTests.h; sourceTree = "<group>"; };
+		4CCF6601180655DA0050CAE4 /* CollectionComprehensionPerformanceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionComprehensionPerformanceTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C1D6A9A17E59CC6003B2C1F /* SenTestingKit.framework in Frameworks */,
+				4CCF65F51805DDD80050CAE4 /* XCTest.framework in Frameworks */,
 				4C1D6A9B17E59CC6003B2C1F /* UIKit.framework in Frameworks */,
 				4C1D6A9C17E59CC6003B2C1F /* Foundation.framework in Frameworks */,
 			);
@@ -88,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4C17E18C17E245520064B54B /* CollectionComprehensionSample.app */,
-				4C1D6A9817E59CC6003B2C1F /* CollectionComprehensionTests.octest */,
+				4C1D6A9817E59CC6003B2C1F /* CollectionComprehensionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,10 +108,10 @@
 		4C17E18E17E245520064B54B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CCF65D7180505290050CAE4 /* XCTest.framework */,
 				4C17E18F17E245520064B54B /* UIKit.framework */,
 				4C17E19117E245520064B54B /* Foundation.framework */,
 				4C17E19317E245520064B54B /* CoreGraphics.framework */,
-				4C1D6A9917E59CC6003B2C1F /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,6 +148,8 @@
 				4C1D6AA317E59CC6003B2C1F /* CollectionComprehensionTests.h */,
 				4C1D6AA417E59CC6003B2C1F /* CollectionComprehensionTests.m */,
 				4C1D6A9E17E59CC6003B2C1F /* Supporting Files */,
+				4CCF6600180655DA0050CAE4 /* CollectionComprehensionPerformanceTests.h */,
+				4CCF6601180655DA0050CAE4 /* CollectionComprehensionPerformanceTests.m */,
 			);
 			path = CollectionComprehensionTests;
 			sourceTree = "<group>";
@@ -182,11 +196,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				4CCF65F41805DDCA0050CAE4 /* PBXTargetDependency */,
 			);
 			name = CollectionComprehensionTests;
 			productName = CollectionComprehensionTests;
-			productReference = 4C1D6A9817E59CC6003B2C1F /* CollectionComprehensionTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 4C1D6A9817E59CC6003B2C1F /* CollectionComprehensionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -269,12 +284,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CCF65F61805DFB80050CAE4 /* DXCollectionComprehensions.m in Sources */,
 				4C1D6AA517E59CC6003B2C1F /* CollectionComprehensionTests.m in Sources */,
-				4C1D6AAA17E59E69003B2C1F /* DXCollectionComprehensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4CCF65F41805DDCA0050CAE4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C17E18B17E245520064B54B /* CollectionComprehensionSample */;
+			targetProxy = 4CCF65F31805DDCA0050CAE4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4C17E19817E245520064B54B /* InfoPlist.strings */ = {
@@ -300,8 +323,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -309,7 +330,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -330,8 +350,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -339,7 +357,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -375,35 +392,36 @@
 		4C1D6AA717E59CC6003B2C1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CollectionComprehensionSample.app/CollectionComprehensionSample";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CollectionComprehensionTests/CollectionComprehensionTests-Prefix.pch";
 				INFOPLIST_FILE = "CollectionComprehensionTests/CollectionComprehensionTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				"TEST_HOST[sdk=*]" = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
+				STRIP_INSTALLED_PRODUCT = NO;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
 		4C1D6AA817E59CC6003B2C1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CollectionComprehensionSample.app/CollectionComprehensionSample";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CollectionComprehensionTests/CollectionComprehensionTests-Prefix.pch";
 				INFOPLIST_FILE = "CollectionComprehensionTests/CollectionComprehensionTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
+				STRIP_INSTALLED_PRODUCT = NO;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
