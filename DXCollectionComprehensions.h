@@ -54,21 +54,18 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 @interface NSArray (Map)
 
 - (NSArray*)map:(ObjectAndIndexToObjectBlock)mapFunction;
-- (NSArray*)map:(ObjectAndIndexToObjectBlock)mapFunction onQueue:(dispatch_queue_t)queue;
 
 @end
 
 @interface NSArray (MapAndJoin)
 
 - (NSArray*)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction;
-- (NSArray*)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction onQueue:(dispatch_queue_t)queue;
 
 @end
 
 @interface NSArray (Filter)
 
 - (NSArray*)filter:(ObjectAndIndexToBoolBlock)filterFunction;
-- (NSArray*)filter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue;
 
 @end
 
@@ -76,7 +73,6 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 @interface NSArray (FilterFirstObject)
 
 - (NSObject*)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction;
-- (NSObject*)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue;
 
 @end
 
