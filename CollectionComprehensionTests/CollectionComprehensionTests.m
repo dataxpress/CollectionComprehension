@@ -86,6 +86,7 @@
 {
     XCTAssertTrue([@"An odd-length string of chars".reversed isEqualToString:@"srahc fo gnirts htgnel-ddo nA"], @"Reversed string must be reverse.");
     XCTAssertTrue([@"An even-length string of chars".reversed isEqualToString:@"srahc fo gnirts htgnel-neve nA"], @"Reversed string must be reverse.");
+    XCTAssertTrue([@"a".reversed isEqualToString:@"a"], @"Single-letter string reversed must match itself.");
     XCTAssertTrue([@"".reversed isEqualToString:@""], @"Empty string reversed must match itself.");
 }
 
