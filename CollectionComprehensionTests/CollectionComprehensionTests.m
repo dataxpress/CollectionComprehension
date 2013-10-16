@@ -274,6 +274,36 @@
     }
 }
 
+-(void)testArrayFilterFirstObject
+{
+    NSArray* testArray = [self firstThousandNumbers];
+    
+    NSObject* firstPrimeAboveFiveHundred = [testArray firstObjectMatchingFilter:^BOOL(NSObject *object, int index) {
+        
+        int number = [(NSNumber*)object intValue];
+        
+        if(number <= 500)
+        {
+            return NO;
+        }
+        // is it prime?
+        
+        for (int i=2; i*i<=number; i++) {
+            if (number % i == 0) return NO;
+        }
+        return YES;
+        
+    }];
+    
+    int value = [(NSNumber*)firstPrimeAboveFiveHundred intValue];
+    
+    // our first prime above 500 should be... 503
+    XCTAssert(value == 503, @"first prime above 500 should be 503.");
+    
+    
+    
+}
+
 
 
 
