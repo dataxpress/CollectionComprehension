@@ -53,14 +53,24 @@
              @"age":@"24"};
 }
 
--(NSArray*)firstHundredThousandNumbers
+-(NSArray*)arrayWithRange:(NSRange)range
 {
-    NSMutableArray* mutableArray = [NSMutableArray arrayWithCapacity:100000];
-    for(int i=0; i<100000; i++)
+    NSMutableArray* mutableArray = [NSMutableArray arrayWithCapacity:range.length];
+    for(int i=range.location; i<range.location+range.length; i++)
     {
         [mutableArray addObject:[NSNumber numberWithInt:i]];
     }
     return [NSArray arrayWithArray:mutableArray];
+}
+
+-(NSArray*)firstThousandNumbers
+{
+    return [self arrayWithRange:NSMakeRange(0, 1000)];
+}
+
+-(NSArray*)firstHundredThousandNumbers
+{
+    return [self arrayWithRange:NSMakeRange(0, 100000)];
 }
 
 -(NSArray*)randomStringsWithChars:(int)chars count:(int)count
