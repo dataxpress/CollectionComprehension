@@ -182,6 +182,64 @@
     }
 }
 
+-(void)testArrayMap
+{
+    
+    NSArray* testArray = [self firstHundredThousandNumbers];
+    
+    NSArray* mappedSquares = [testArray map:^NSObject *(NSObject *object, int index) {
+        NSNumber* input = (NSNumber*)object;
+        int value = input.intValue;
+        value = value * value;
+        return [NSNumber numberWithInt:value];
+    }];
+    
+    // first, maps should always have the same count.
+    XCTAssert(mappedSquares.count == testArray.count);
+    
+    // verify that each number is, indeed, the square of its counterpart
+    for(int i=0; i<testArray.count; i++)
+    {
+        int originalNumber = [testArray[i] intValue];
+        int mappedSquare = [mappedSquares[i] intValue];
+        XCTAssert(originalNumber * originalNumber == mappedSquare, @"square should equal the square of the original number.");
+    }
+    
+    
+}
+
+-(void)testArrayFilter
+{
+    NSArray* testArray = [self firstThousandNumbers];
+    
+    NSArray* oddNumbers = [testArray filter:^BOOL(NSObject *object, int index) {
+        int value = [(NSNumber*)object intValue];
+        return value % 2 == 1;
+    }];
+    
+    // we cannot make assumptions about the count of the returned array, except that it will be less than or equal to the original array
+    XCTAssert(testArray.count >= oddNumbers.count, @"filtered result should have equal or less count than original array");
+    
+    // loop through the original array, and in cases where it is odd, make sure it IS in the result; otherwise, make sure it is NOT in the result.
+    for(int i=0; i<testArray.count; i++)
+    {
+        NSNumber* number = testArray[i];
+        int value = [number intValue];
+        if(value % 2 == 1)
+        {
+            // odd - should be in oddNumbers
+            XCTAssert([oddNumbers containsObject:number], @"Odd numbers should contain our odd number.");
+        }
+        else
+        {
+            //even - should NOT be contained
+            XCTAssert([oddNumbers containsObject:number] == NO, @"Odd numbers array should not contain an even number");
+        }
+    }
+}
+
+
+
 
 
 -(void)testTuple
