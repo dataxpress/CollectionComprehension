@@ -55,8 +55,12 @@
 
 -(NSArray*)arrayWithRange:(NSRange)range
 {
+    if(range.length <= 0)
+    {
+        return @[];
+    }
     NSMutableArray* mutableArray = [NSMutableArray arrayWithCapacity:range.length];
-    for(int i=range.location; i<range.location+range.length; i++)
+    for(int i=range.location; i<range.location + range.length; i++)
     {
         [mutableArray addObject:[NSNumber numberWithInt:i]];
     }
@@ -204,6 +208,38 @@
         int mappedSquare = [mappedSquares[i] intValue];
         XCTAssert(originalNumber * originalNumber == mappedSquare, @"square should equal the square of the original number.");
     }
+}
+
+-(void)testArrayMapAndJoin
+{
+    // let's make a test array of a hundred random strings of fifteen chars each
+    NSArray* testArray = [self randomStringsWithChars:15 count:100];
+    
+    // now, let's map and join splitting each string into its component characters
+    NSArray* mapAndJoinedArray = [testArray mapAndJoin:^NSArray *(NSObject *object, int index) {
+        
+        NSString* input = (NSString*)object;
+        NSMutableArray* chars = [NSMutableArray arrayWithCapacity:input.length];
+        for(int i=0; i<input.length; i++)
+        {
+            [chars addObject:[input substringWithRange:NSMakeRange(i, 1)]];
+        }
+        return chars;
+    }];
+    
+    // now, we have an array of chars that is all of the individual characters from the strings in a single array
+    // so if we started with ["cat","dog"] we now have ["c","a","t","d","o","g"]
+    // joining the arrays with no delimiter should result in an equal return ("catdog" == "catdog")
+    
+    NSString* joinedTestArray = [testArray componentsJoinedByString:@""];
+    NSString* joinedMapAndJoinedArray = [mapAndJoinedArray componentsJoinedByString:@""];
+    
+    XCTAssert([joinedTestArray isEqualToString:joinedMapAndJoinedArray], @"arrays combined should be equal");
+    
+    // the above assert verifies:
+    // - ordering
+    
+    
     
     
 }
