@@ -204,6 +204,10 @@
     XCTAssert([tuple isEqual:differentKeyDifferentValue] == NO, @"Different key and value should not be equal.");
     
     
+    Tuple* initConstructorTuple = [[Tuple alloc] initWithValue:value forKey:key];
+    
+    XCTAssert([tuple isEqual:initConstructorTuple], @"creating a tuple via quick constructor and init should be equal");
+    [initConstructorTuple release];
     
     
 }
