@@ -172,6 +172,42 @@
 }
 
 
+
+-(void)testTuple
+{
+    NSString* key = @"key";
+    NSString* value = @"value";
+    NSString* key2 = @"key2";
+    NSString* value2 = @"value2";
+    
+
+    
+    Tuple* tuple = [Tuple tupleWithValue:value forKey:key];
+    
+    XCTAssertNotNil(tuple.key, @"tuple key should not be nil");
+    XCTAssertNotNil(tuple.value, @"tuple value should not be nil");
+    
+
+    XCTAssert([tuple.key isEqual:key], @"Key must equal original key.");
+    XCTAssert([tuple.value isEqual:value], @"Key must equal original key.");
+    
+    Tuple* identicalTuple = [Tuple tupleWithValue:value forKey:key];
+
+    XCTAssert([tuple isEqual:identicalTuple], @"Tuple equality should match for identical tuples.");
+    
+    Tuple* sameKeyDifferentValue = [Tuple tupleWithValue:value2 forKey:key];
+    Tuple* differentKeySameValue = [Tuple tupleWithValue:value forKey:key2];
+    Tuple* differentKeyDifferentValue = [Tuple tupleWithValue:value2 forKey:key2];
+    
+    XCTAssert([tuple isEqual:sameKeyDifferentValue] == NO, @"Differing values should not be equal.");
+    XCTAssert([tuple isEqual:differentKeySameValue] == NO, @"Differing keys should not be equal.");
+    XCTAssert([tuple isEqual:differentKeyDifferentValue] == NO, @"Different key and value should not be equal.");
+    
+    
+    
+    
+}
+
 - (void)tearDown
 {
     // Tear-down code here.
