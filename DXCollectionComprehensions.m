@@ -328,6 +328,12 @@
     return [[[Tuple alloc] initWithValue:value forKey:key] autorelease];
 }
 
+-(BOOL)isEqual:(id)object
+{
+    return [self.key isEqual:((Tuple*)object).key] &&
+           [self.value isEqual:((Tuple*)object).value];
+}
+
 -(void)dealloc
 {
     [_key release];
