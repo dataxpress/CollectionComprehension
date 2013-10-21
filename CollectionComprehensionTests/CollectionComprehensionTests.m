@@ -205,6 +205,64 @@
     }
 }
 
+-(void)testDictionaryTuple
+{
+    // dictionaries created from tuples should look exactly like dictionaries created with other methods.
+    
+    NSArray* keys = @[@"key1",@"key2",@"key3"];
+    NSArray* values = @[@"value1",@"value2",@"value3"];
+    
+    NSDictionary* truthDictionary = [NSDictionary dictionaryWithObjects:values forKeys:keys];
+    
+    NSMutableArray* tuples = [NSMutableArray array];
+    for(int i=0; i<keys.count; i++)
+    {
+        Tuple* tuple = [Tuple tupleWithValue:values[i] forKey:keys[i]];
+        [tuples addObject:tuple];
+    }
+    
+    
+    NSDictionary* dictMadeFromArrayOfTuples = [NSDictionary dictionaryWithTuples:tuples];
+    
+    XCTAssert([truthDictionary isEqualToDictionary:dictMadeFromArrayOfTuples], @"Dictionaries must match.");
+    
+    NSDictionary* dictInitedFromArrayOfTuples = [[NSDictionary alloc] initWithTuples:tuples];
+    
+    XCTAssert([truthDictionary isEqualToDictionary:dictInitedFromArrayOfTuples], @"Dictionaries must match.");
+    
+    [dictInitedFromArrayOfTuples release];
+    
+    NSMutableDictionary* mutableDictBuiltFromTuples = [NSMutableDictionary dictionary];
+    for(Tuple* tuple in tuples)
+    {
+        [mutableDictBuiltFromTuples addTuple:tuple];
+    }
+    
+    XCTAssert([truthDictionary isEqualToDictionary:mutableDictBuiltFromTuples], @"Dictionaries must match.");
+    
+    // test the tuples accessor
+    NSArray* tuplesFromTruth = [truthDictionary tuples];
+    
+    // arrays must match, but dictionaries are unordered, so we have to just compare the counts and make sure both arrays contain all objects
+    XCTAssert(tuplesFromTruth.count == tuples.count, @"Arrays must have same counts.");
+    
+    for(Tuple* tuple in tuples)
+    {
+        XCTAssert([tuplesFromTruth containsObject:tuple], @"Array must contain tuple.");
+    }
+    
+    // assert the other way around, too...
+    for(Tuple* tuple in tuplesFromTruth)
+    {
+        XCTAssert([tuples containsObject:tuple], @"Array must contain tuple.");
+    }
+    
+    
+    
+    
+}
+
+
 -(void)testArrayMap
 {
     
