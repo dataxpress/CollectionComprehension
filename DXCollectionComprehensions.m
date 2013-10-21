@@ -89,22 +89,19 @@
 {
     
     NSArray* retVal;
-    @synchronized(self)
+    NSUInteger count = self.count;
+    id* results = malloc(count * sizeof(id));
+    dispatch_apply(count, queue, ^(size_t index)
     {
-        NSUInteger count = self.count;
-        id* results = malloc(count * sizeof(id));
-        dispatch_apply(count, queue, ^(size_t index)
-        {
-            id obj = mapFunction(self[(int)index], (int)index);
-            results[index] = [obj retain];
-        });
-        retVal = [NSArray arrayWithObjects:results count:count];
-        dispatch_apply(count, queue, ^(size_t index)
-        {
-            [results[index] release];
-        });
-        free(results);
-    }
+        id obj = mapFunction(self[(int)index], (int)index);
+        results[index] = [obj retain];
+    });
+    retVal = [NSArray arrayWithObjects:results count:count];
+    dispatch_apply(count, queue, ^(size_t index)
+    {
+        [results[index] release];
+    });
+    free(results);
     
     return retVal;
 }
@@ -155,41 +152,38 @@
 -(NSArray *)filter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue
 {    
     NSArray* retVal;
-    @synchronized(self)
+    NSUInteger count = self.count;
+    id* results = malloc(count * sizeof(id));
+    dispatch_apply(count, queue, ^(size_t index)
     {
-        NSUInteger count = self.count;
-        id* results = malloc(count * sizeof(id));
-        dispatch_apply(count, queue, ^(size_t index)
+        id obj = self[(int)index];
+        BOOL add = filterFunction(self[(int)index], (int)index);
+        if(add == YES)
         {
-            id obj = self[(int)index];
-            BOOL add = filterFunction(self[(int)index], (int)index);
-            if(add == YES)
-            {
-                results[index] = [obj retain];
-            }
-            else
-            {
-                results[index] = nil;
-            }
-        });
-        id* newResults = malloc(count * sizeof(id));
-        int resultCount = 0;
-        for(int i=0; i < count; i++)
-        {
-            if(results[i] != nil)
-            {
-                newResults[resultCount++] = results[i];
-            }
+            results[index] = [obj retain];
         }
-        retVal = [NSArray arrayWithObjects:newResults count:resultCount];
-        dispatch_apply(count, queue, ^(size_t index)
+        else
         {
-            [results[index] release];
-        });
-        free(results);
-        free(newResults);
+            results[index] = nil;
+        }
+    });
+    id* newResults = malloc(count * sizeof(id));
+    int resultCount = 0;
+    for(int i=0; i < count; i++)
+    {
+        if(results[i] != nil)
+        {
+            newResults[resultCount++] = results[i];
+        }
     }
-    
+    retVal = [NSArray arrayWithObjects:newResults count:resultCount];
+    dispatch_apply(count, queue, ^(size_t index)
+    {
+        [results[index] release];
+    });
+    free(results);
+    free(newResults);
+
     return retVal;
     
 }
@@ -211,39 +205,36 @@
 -(NSObject *)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue
 {
     NSObject* retVal = nil;
-    @synchronized(self)
+    NSUInteger count = self.count;
+    id* results = malloc(count * sizeof(id));
+    memset(results, 0, count * sizeof(id));
+    __block int lowest = INT_MAX;
+    dispatch_apply(count, queue, ^(size_t index)
     {
-        NSUInteger count = self.count;
-        id* results = malloc(count * sizeof(id));
-        memset(results, 0, count * sizeof(id));
-        __block int lowest = INT_MAX;
-        dispatch_apply(count, queue, ^(size_t index)
+        if(index < lowest)
         {
-            if(index < lowest)
+            id obj = self[(int)index];
+            BOOL add = filterFunction(self[(int)index], (int)index);
+            if(add == YES)
             {
-                id obj = self[(int)index];
-                BOOL add = filterFunction(self[(int)index], (int)index);
-                if(add == YES)
-                {
-                    results[index] = [obj retain];
-                    lowest = index;
-                }
-            }
-        });
-        // find the lowest index within count
-        for(int i=0; i < count && retVal == nil; i++)
-        {
-            if(results[i] != nil)
-            {
-                retVal = [results[i] retain];
+                results[index] = [obj retain];
+                lowest = index;
             }
         }
-        dispatch_apply(count, queue, ^(size_t index)
+    });
+    // find the lowest index within count
+    for(int i=0; i < count && retVal == nil; i++)
+    {
+        if(results[i] != nil)
         {
-            [results[index] release];
-        });
-        free(results);
+            retVal = [results[i] retain];
+        }
     }
+    dispatch_apply(count, queue, ^(size_t index)
+    {
+        [results[index] release];
+    });
+    free(results);
     
     return retVal;
     
