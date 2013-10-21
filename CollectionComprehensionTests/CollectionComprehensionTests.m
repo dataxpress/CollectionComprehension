@@ -152,13 +152,13 @@
 {
     NSDictionary* testDictionary = [self userInfoDictionary];
     
-    NSArray* keys = [testDictionary mapToArray:^NSObject *(Tuple *tuple) {
+    NSArray* keys = [testDictionary mapToArray:^id (Tuple *tuple) {
         return tuple.key;
     }];
     
     XCTAssertTrue([testDictionary.allKeys isEqualToArray:keys], @"Keys array must match.");
     
-    NSArray* values = [testDictionary mapToArray:^NSObject *(Tuple *tuple) {
+    NSArray* values = [testDictionary mapToArray:^id (Tuple *tuple) {
         return tuple.value;
     }];
     
@@ -174,7 +174,7 @@
         
     }
     
-    NSArray* keysValues = [testDictionary mapToArray:^NSObject *(Tuple *tuple) {
+    NSArray* keysValues = [testDictionary mapToArray:^id (Tuple *tuple) {
         return [NSString stringWithFormat:@"%@=%@",tuple.key,tuple.value];
     }];
     
@@ -291,7 +291,7 @@
     
     NSArray* testArray = [NSArray firstHundredThousandNumbers];
     
-    NSArray* mappedSquares = [testArray map:^NSObject *(NSObject *object, int index) {
+    NSArray* mappedSquares = [testArray map:^id (id object, int index) {
         NSNumber* input = (NSNumber*)object;
         int value = input.intValue;
         value = value * value;
@@ -316,7 +316,7 @@
     NSArray* testArray = [self randomStringsWithChars:15 count:100];
     
     // now, let's map and join splitting each string into its component characters
-    NSArray* mapAndJoinedArray = [testArray mapAndJoin:^NSArray *(NSObject *object, int index) {
+    NSArray* mapAndJoinedArray = [testArray mapAndJoin:^id (id object, int index) {
         
         // if my input was @"hello" we will return @[@"h",@"e",@"l",@"l",@"o"]
         NSString* input = (NSString*)object;
@@ -351,7 +351,7 @@
 {
     NSArray* testArray = [NSArray firstThousandNumbers];
     
-    NSArray* oddNumbers = [testArray filter:^BOOL(NSObject *object, int index) {
+    NSArray* oddNumbers = [testArray filter:^BOOL(id object, int index) {
         int value = [(NSNumber*)object intValue];
         return value % 2 == 1;
     }];
@@ -381,7 +381,7 @@
 {
     NSArray* testArray = [NSArray firstThousandNumbers];
     
-    NSObject* firstPrimeAboveFiveHundred = [testArray firstObjectMatchingFilter:^BOOL(NSObject *object, int index) {
+    NSNumber* firstPrimeAboveFiveHundred = [testArray firstObjectMatchingFilter:^BOOL(id object, int index) {
         
         int number = [(NSNumber*)object intValue];
         
@@ -398,7 +398,7 @@
         
     }];
     
-    int value = [(NSNumber*)firstPrimeAboveFiveHundred intValue];
+    int value = [firstPrimeAboveFiveHundred intValue];
     
     // our first prime above 500 should be... 503
     XCTAssert(value == 503, @"first prime above 500 should be 503.");

@@ -13,13 +13,13 @@
 @class Tuple;
 
 typedef Tuple* (^TupleToTupleBlock)(Tuple* tuple);
-typedef NSObject* (^TupleToObjectBlock)(Tuple* tuple);
-typedef NSObject* (^ObjectToObjectBlock)(NSObject* object);
-typedef NSObject* (^ObjectAndIndexToObjectBlock)(NSObject* object, int index);
-typedef NSArray* (^ObjectAndIndexToArrayBlock)(NSObject* object, int index);
+typedef id (^TupleToObjectBlock)(Tuple* tuple);
+typedef id (^ObjectToObjectBlock)(id object);
+typedef id (^ObjectAndIndexToObjectBlock)(id object, int index);
+typedef NSArray* (^ObjectAndIndexToArrayBlock)(id object, int index);
 typedef BOOL (^TupleToBoolBlock)(Tuple* tuple);
-typedef BOOL (^ObjectAndIndexToBoolBlock)(NSObject* object, int index);
-typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
+typedef BOOL (^ObjectAndIndexToBoolBlock)(id object, int index);
+typedef BOOL (^ObjectToBoolBlock)(id object);
 
 #pragma mark - Dictionary categories
 
@@ -87,7 +87,7 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 @interface NSArray (FilterFirstObject)
 
 /// First Object Matching Filter:  For all of the objects in the array, return a BOOL value.  This method returns the first object for which the block returned YES.  This method is not guaranteed to call the filter function on objects in order, and is not guaranteed to call the filter function on all objects as it stops calling it once an object is found.  This method has more aggressive performance charactersistics than simply calling -filter: and then -firstObject.
-- (NSObject*)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction;
+- (id)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction;
 
 @end
 
@@ -96,15 +96,15 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 @interface Tuple : NSObject
 
 /// Creates a new autoreleased tuple with the specified key/value pair.
-+(Tuple*)tupleWithValue:(NSObject*)value forKey:(NSObject<NSCopying>*)key;
++(Tuple*)tupleWithValue:(id)value forKey:(id<NSCopying,NSObject>)key;
 
 /// Creates a new tuple with the specified key/value pair.
--(Tuple*)initWithValue:(NSObject*)value forKey:(NSObject<NSCopying>*)key;
+-(Tuple*)initWithValue:(id)value forKey:(id<NSCopying,NSObject>)key;
 
 /// The key of the tuple.  Requires conformance to NSCopying per NSDictionary's spec, but is not copied.
-@property (nonatomic, retain) NSObject<NSCopying>* key;
+@property (nonatomic, retain) id<NSCopying,NSObject> key;
 
 /// The value of the tuple.  Does not require NSCopying, but is retained.
-@property (nonatomic, retain) NSObject* value;
+@property (nonatomic, retain) id value;
 
 @end

@@ -14,7 +14,7 @@
 
 -(NSDictionary *)map:(TupleToTupleBlock)mapFunction
 {
-    return [NSDictionary dictionaryWithTuples:[self.tuples map:^NSObject *(NSObject *object, int index) {
+    return [NSDictionary dictionaryWithTuples:[self.tuples map:^id(id object, int index) {
         Tuple* tuple = (Tuple*)object;
         return mapFunction(tuple);
     }]];
@@ -23,7 +23,7 @@
 
 -(NSArray *)mapToArray:(TupleToObjectBlock)mapFunction
 {
-    return [self.tuples map:^NSObject *(NSObject *object, int index) {
+    return [self.tuples map:^id (id object, int index) {
         return mapFunction((Tuple*)object);
     }];
 
@@ -35,7 +35,7 @@
 
 -(NSDictionary *)filter:(TupleToBoolBlock)filterFunction
 {
-    return [NSDictionary dictionaryWithTuples:[self.tuples filter:^BOOL(NSObject *object, int index) {
+    return [NSDictionary dictionaryWithTuples:[self.tuples filter:^BOOL(id object, int index) {
         return filterFunction((Tuple*)object);
     }]];
 }
@@ -56,8 +56,8 @@
 
 -(NSArray *)tuples
 {
-    return [self.allKeys map:^NSObject *(NSObject *object, int index) {
-        return [Tuple tupleWithValue:self[object] forKey:(NSObject<NSCopying>*)object];
+    return [self.allKeys map:^id(id object, int index) {
+        return [Tuple tupleWithValue:self[object] forKey:(id<NSCopying,NSObject>)object];
     }];
 
 }
@@ -194,17 +194,17 @@
 
 @implementation NSArray (FilterFirstObject)
 
--(NSObject *)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction
+-(id)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction
 {
     dispatch_queue_t queue = dispatch_queue_create("filter first queue", DISPATCH_QUEUE_CONCURRENT);
-    NSObject* result = [self firstObjectMatchingFilter:filterFunction onQueue:queue];
+    id result = [self firstObjectMatchingFilter:filterFunction onQueue:queue];
     dispatch_release(queue);
     return result;
 }
 
--(NSObject *)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue
+-(id)firstObjectMatchingFilter:(ObjectAndIndexToBoolBlock)filterFunction onQueue:(dispatch_queue_t)queue
 {
-    NSObject* retVal = nil;
+    id retVal = nil;
     NSUInteger count = self.count;
     id* results = malloc(count * sizeof(id));
     memset(results, 0, count * sizeof(id));
@@ -246,7 +246,7 @@
 
 @implementation Tuple
 
--(Tuple *)initWithValue:(NSObject*)value forKey:(NSObject<NSCopying>*)key
+-(Tuple *)initWithValue:(id)value forKey:(id<NSCopying,NSObject>)key
 {
     if(self = [super init])
     {
@@ -256,7 +256,7 @@
     return self;
 }
 
-+(Tuple *)tupleWithValue:(NSObject*)value forKey:(NSObject<NSCopying>*)key
++(Tuple *)tupleWithValue:(id)value forKey:(id<NSCopying,NSObject>)key
 {
     return [[[Tuple alloc] initWithValue:value forKey:key] autorelease];
 }
