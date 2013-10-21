@@ -91,22 +91,6 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 
 @end
 
-#pragma mark - Set categories
-
-@interface NSSet (Map)
-
-/// Map: For each object in the set, return an object.  This method returns a set of those returned objects.
-- (NSSet*)map:(ObjectToObjectBlock)mapFunction;
-
-@end
-
-@interface NSSet (Filter)
-
-/// Filter: For each object in the set, return a BOOL.  This method returns a set of objects for which the filter function block returned YES.
-- (NSSet*)filter:(ObjectToBoolBlock)filterFunction;
-
-@end
-
 #pragma mark - Tuple
 
 @interface Tuple : NSObject
