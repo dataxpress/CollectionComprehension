@@ -237,6 +237,7 @@
     // now, let's map and join splitting each string into its component characters
     NSArray* mapAndJoinedArray = [testArray mapAndJoin:^NSArray *(NSObject *object, int index) {
         
+        // if my input was @"hello" we will return @[@"h",@"e",@"l",@"l",@"o"]
         NSString* input = (NSString*)object;
         NSMutableArray* chars = [NSMutableArray arrayWithCapacity:input.length];
         for(int i=0; i<input.length; i++)
@@ -257,6 +258,8 @@
     
     // the above assert verifies:
     // - ordering
+    // - equality
+    // - count
     
     
     
