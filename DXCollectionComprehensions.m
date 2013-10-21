@@ -14,32 +14,19 @@
 
 -(NSDictionary *)map:(TupleToTupleBlock)mapFunction
 {
-    
-    NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:self.count];
-    
-    [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [result addTuple:mapFunction([Tuple tupleWithValue:obj forKey:key])];
-    }];
-    
-    NSDictionary* retVal = [NSDictionary dictionaryWithDictionary:result];
-    [result release];
-    return retVal;
+    return [NSDictionary dictionaryWithTuples:[self.tuples map:^NSObject *(NSObject *object, int index) {
+        Tuple* tuple = (Tuple*)object;
+        return mapFunction(tuple);
+    }]];
     
 }
 
 -(NSArray *)mapToArray:(TupleToObjectBlock)mapFunction
 {
-    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:self.count];
-    
-    [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        Tuple* tuple = [[Tuple alloc] initWithValue:obj forKey:key];
-        [result addObject:mapFunction(tuple)];
-        [tuple release];
+    return [self.tuples map:^NSObject *(NSObject *object, int index) {
+        return mapFunction((Tuple*)object);
     }];
-    
-    NSArray* retVal = [NSArray arrayWithArray:result];
-    [result release];
-    return retVal;
+
 }
 
 @end
@@ -48,21 +35,9 @@
 
 -(NSDictionary *)filter:(TupleToBoolBlock)filterFunction
 {
-    NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:self.count];
-    
-    [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        Tuple* tuple = [[Tuple alloc] initWithValue:obj forKey:key];
-        if(filterFunction(tuple))
-        {
-            [result addTuple:tuple];
-        }
-        [tuple release];
-    }];
-    
-    
-    NSDictionary* retVal = [NSDictionary dictionaryWithDictionary:result];
-    [result release];
-    return retVal;
+    return [NSDictionary dictionaryWithTuples:[self.tuples filter:^BOOL(NSObject *object, int index) {
+        return filterFunction((Tuple*)object);
+    }]];
 }
 
 @end
