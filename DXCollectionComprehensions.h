@@ -40,6 +40,7 @@ typedef BOOL (^ObjectToBoolBlock)(NSObject* object);
 
 + (NSDictionary*)dictionaryWithTuples:(NSArray*)tuples;
 - (NSDictionary*)initWithTuples:(NSArray*)tuples;
+- (NSArray *)tuples;
 
 @end
 

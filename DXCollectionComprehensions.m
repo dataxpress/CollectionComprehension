@@ -79,6 +79,14 @@
     return [[NSDictionary alloc] initWithObjects:[tuples valueForKey:@"value"] forKeys:[tuples valueForKey:@"key"]];
 }
 
+-(NSArray *)tuples
+{
+    return [self.allKeys map:^NSObject *(NSObject *object, int index) {
+        return [Tuple tupleWithValue:self[object] forKey:(NSObject<NSCopying>*)object];
+    }];
+
+}
+
 @end
 
 @implementation NSMutableDictionary (Tuple)
