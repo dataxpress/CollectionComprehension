@@ -203,6 +203,18 @@
             XCTAssertTrue([testDictionary[key] rangeOfString:@"a"].location == NSNotFound, @"values not in the result dictionary should not contain lowercase a");
         }
     }
+    
+    // filtering a dictionary to have no values should return an empty dictionary
+    NSDictionary* anotherTestDictionary = @{@"key": @"val",
+                                            @"key2":@"val2"};
+    NSDictionary* filtered = [anotherTestDictionary filter:^BOOL(Tuple *tuple) {
+        return NO;
+    }];
+    
+    XCTAssert(filtered != nil, @"filtered dict should not be nil");
+    XCTAssert(filtered.count == 0, @"filtered dict should have no entries.");
+    
+    
 }
 
 -(void)testDictionaryTuple
@@ -257,7 +269,18 @@
         XCTAssert([tuples containsObject:tuple], @"Array must contain tuple.");
     }
     
+    // test overwrite on mutable dictionaries
+    NSMutableDictionary* overwriteTest = [NSMutableDictionary dictionary];
+    Tuple* testTuple = [Tuple tupleWithValue:@"value" forKey:@"key"];
+    Tuple* testTuple2 = [Tuple tupleWithValue:@"value2" forKey:@"key"];
     
+    XCTAssert(overwriteTest.count == 0, @"Dictionary should start empty.");
+    [overwriteTest addTuple:testTuple];
+    XCTAssert(overwriteTest.count == 1, @"Dictionary should now have one tuple.");
+    [overwriteTest addTuple:testTuple];
+    XCTAssert(overwriteTest.count == 1, @"Dictionary should still only have one tuple.");
+    [overwriteTest addTuple:testTuple2];
+    XCTAssert(overwriteTest.count == 1, @"Dictionary should still only have one tuple.");
     
     
 }
