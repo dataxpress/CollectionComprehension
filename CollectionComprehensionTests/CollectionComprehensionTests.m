@@ -32,6 +32,50 @@
 
 @end
 
+@implementation NSArray (TestHelpers)
+
+
++(NSArray*)arrayWithRange:(NSRange)range
+{
+    
+    
+    
+    
+    if(range.length <= 0)
+    {
+        return @[];
+    }
+    NSMutableArray* mutableArray = [NSMutableArray arrayWithCapacity:range.length];
+    for(int i=range.location; i<range.location + range.length; i++)
+    {
+        [mutableArray addObject:[NSNumber numberWithInt:i]];
+    }
+    return [NSArray arrayWithArray:mutableArray];
+}
+
++(NSArray*)firstThousandNumbers
+{
+    return [self arrayWithRange:NSMakeRange(0, 1000)];
+}
+
++(NSArray*)firstHundredThousandNumbers
+{
+    return [self arrayWithRange:NSMakeRange(0, 100000)];
+}
+
+-(int)sumIntArrayOfContents
+{
+    int sum = 0;
+    for(NSNumber* number in self)
+    {
+        sum += number.intValue;
+    }
+    return sum;
+}
+
+
+@end
+
 
 @implementation CollectionComprehensionTests
 
@@ -51,30 +95,6 @@
              @"password_hash" : @"pwhash",
              @"country":@"USA",
              @"age":@"24"};
-}
-
--(NSArray*)arrayWithRange:(NSRange)range
-{
-    if(range.length <= 0)
-    {
-        return @[];
-    }
-    NSMutableArray* mutableArray = [NSMutableArray arrayWithCapacity:range.length];
-    for(int i=range.location; i<range.location + range.length; i++)
-    {
-        [mutableArray addObject:[NSNumber numberWithInt:i]];
-    }
-    return [NSArray arrayWithArray:mutableArray];
-}
-
--(NSArray*)firstThousandNumbers
-{
-    return [self arrayWithRange:NSMakeRange(0, 1000)];
-}
-
--(NSArray*)firstHundredThousandNumbers
-{
-    return [self arrayWithRange:NSMakeRange(0, 100000)];
 }
 
 -(NSArray*)randomStringsWithChars:(int)chars count:(int)count
@@ -115,7 +135,6 @@
 
     // map - reverse all of the values for each key
     NSDictionary* reversed = [testDictionary map:^Tuple *(Tuple *tuple) {
-        
         return [Tuple tupleWithValue:[(NSString*)tuple.value reversed] forKey:tuple.key];
     }];
     
@@ -189,7 +208,7 @@
 -(void)testArrayMap
 {
     
-    NSArray* testArray = [self firstHundredThousandNumbers];
+    NSArray* testArray = [NSArray firstHundredThousandNumbers];
     
     NSArray* mappedSquares = [testArray map:^NSObject *(NSObject *object, int index) {
         NSNumber* input = (NSNumber*)object;
@@ -246,7 +265,7 @@
 
 -(void)testArrayFilter
 {
-    NSArray* testArray = [self firstThousandNumbers];
+    NSArray* testArray = [NSArray firstThousandNumbers];
     
     NSArray* oddNumbers = [testArray filter:^BOOL(NSObject *object, int index) {
         int value = [(NSNumber*)object intValue];
@@ -276,7 +295,7 @@
 
 -(void)testArrayFilterFirstObject
 {
-    NSArray* testArray = [self firstThousandNumbers];
+    NSArray* testArray = [NSArray firstThousandNumbers];
     
     NSObject* firstPrimeAboveFiveHundred = [testArray firstObjectMatchingFilter:^BOOL(NSObject *object, int index) {
         
