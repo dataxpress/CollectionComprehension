@@ -23,7 +23,7 @@
 -(NSString*)reversed
 {
     NSMutableString* newValue = [NSMutableString stringWithCapacity:self.length];
-    for(int i=0; i<self.length; i++)
+    for(NSUInteger i=0; i<self.length; i++)
     {
         [newValue appendString:[[self substringFromIndex:self.length - 1 - i] substringToIndex:1]];
     }
@@ -46,9 +46,9 @@
         return @[];
     }
     NSMutableArray* mutableArray = [NSMutableArray arrayWithCapacity:range.length];
-    for(int i=range.location; i<range.location + range.length; i++)
+    for(NSUInteger i=range.location; i<range.location + range.length; i++)
     {
-        [mutableArray addObject:[NSNumber numberWithInt:i]];
+        [mutableArray addObject:[NSNumber numberWithInteger:i]];
     }
     return [NSArray arrayWithArray:mutableArray];
 }
@@ -134,7 +134,7 @@
     
 
     // map - reverse all of the values for each key
-    NSDictionary* reversed = [testDictionary map:^Tuple *(Tuple *tuple) {
+    NSDictionary* reversed = [testDictionary mappedDictionaryUsingBlock:^Tuple *(Tuple *tuple) {
         return [Tuple tupleWithValue:[(NSString*)tuple.value reversed] forKey:tuple.key];
     }];
     
@@ -152,13 +152,13 @@
 {
     NSDictionary* testDictionary = [self userInfoDictionary];
     
-    NSArray* keys = [testDictionary mapToArray:^id (Tuple *tuple) {
+    NSArray* keys = [testDictionary mappedArrayUsingBlock:^id (Tuple *tuple) {
         return tuple.key;
     }];
     
     XCTAssertTrue([testDictionary.allKeys isEqualToArray:keys], @"Keys array must match.");
     
-    NSArray* values = [testDictionary mapToArray:^id (Tuple *tuple) {
+    NSArray* values = [testDictionary mappedArrayUsingBlock:^id (Tuple *tuple) {
         return tuple.value;
     }];
     
@@ -174,7 +174,7 @@
         
     }
     
-    NSArray* keysValues = [testDictionary mapToArray:^id (Tuple *tuple) {
+    NSArray* keysValues = [testDictionary mappedArrayUsingBlock:^id (Tuple *tuple) {
         return [NSString stringWithFormat:@"%@=%@",tuple.key,tuple.value];
     }];
     
@@ -187,7 +187,7 @@
     NSDictionary* testDictionary = [self userInfoDictionary];
 
     // only get values containing a lowercase "a"
-    NSDictionary* lowercaseA = [testDictionary filter:^BOOL(Tuple *tuple) {
+    NSDictionary* lowercaseA = [testDictionary filteredDictionaryUsingBlock:^BOOL(Tuple *tuple) {
         return [(NSString*)tuple.value rangeOfString:@"a"].location != NSNotFound;
     }];
     
@@ -207,7 +207,7 @@
     // filtering a dictionary to have no values should return an empty dictionary
     NSDictionary* anotherTestDictionary = @{@"key": @"val",
                                             @"key2":@"val2"};
-    NSDictionary* filtered = [anotherTestDictionary filter:^BOOL(Tuple *tuple) {
+    NSDictionary* filtered = [anotherTestDictionary filteredDictionaryUsingBlock:^BOOL(Tuple *tuple) {
         return NO;
     }];
     
@@ -291,7 +291,7 @@
     
     NSArray* testArray = [NSArray firstHundredThousandNumbers];
     
-    NSArray* mappedSquares = [testArray map:^id (id object, int index) {
+    NSArray* mappedSquares = [testArray mappedArrayUsingBlock:^id (id object, NSUInteger index) {
         NSNumber* input = (NSNumber*)object;
         int value = input.intValue;
         value = value * value;
@@ -316,7 +316,7 @@
     NSArray* testArray = [self randomStringsWithChars:15 count:100];
     
     // now, let's map and join splitting each string into its component characters
-    NSArray* mapAndJoinedArray = [testArray mapAndJoin:^id (id object, int index) {
+    NSArray* mapAndJoinedArray = [testArray mappedAndJoinedArrayUsingBlock:^id (id object, NSUInteger index) {
         
         // if my input was @"hello" we will return @[@"h",@"e",@"l",@"l",@"o"]
         NSString* input = (NSString*)object;
@@ -351,7 +351,7 @@
 {
     NSArray* testArray = [NSArray firstThousandNumbers];
     
-    NSArray* oddNumbers = [testArray filter:^BOOL(id object, int index) {
+    NSArray* oddNumbers = [testArray filteredArrayUsingBlock:^BOOL(id object, NSUInteger index) {
         int value = [(NSNumber*)object intValue];
         return value % 2 == 1;
     }];
@@ -381,7 +381,7 @@
 {
     NSArray* testArray = [NSArray firstThousandNumbers];
     
-    NSNumber* firstPrimeAboveFiveHundred = [testArray firstObjectMatchingFilter:^BOOL(id object, int index) {
+    NSNumber* firstPrimeAboveFiveHundred = [testArray firstObjectMatchingFilter:^BOOL(id object, NSUInteger index) {
         
         int number = [(NSNumber*)object intValue];
         

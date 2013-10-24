@@ -12,18 +12,18 @@
 
 @implementation NSDictionary (Comprehensions)
 
--(NSDictionary *)map:(TupleToTupleBlock)mapFunction
+-(NSDictionary *)mappedDictionaryUsingBlock:(TupleToTupleBlock)mapFunction
 {
-    return [NSDictionary dictionaryWithTuples:[self.tuples map:^id(id object, int index) {
+    return [NSDictionary dictionaryWithTuples:[self.tuples mappedArrayUsingBlock:^id(id object, NSUInteger index) {
         Tuple* tuple = (Tuple*)object;
         return mapFunction(tuple);
     }]];
     
 }
 
--(NSArray *)mapToArray:(TupleToObjectBlock)mapFunction
+-(NSArray *)mappedArrayUsingBlock:(TupleToObjectBlock)mapFunction
 {
-    return [self.tuples map:^id (id object, int index) {
+    return [self.tuples mappedArrayUsingBlock:^id (id object, NSUInteger index) {
         return mapFunction((Tuple*)object);
     }];
 
@@ -33,9 +33,9 @@
 
 @implementation NSDictionary (Filter)
 
--(NSDictionary *)filter:(TupleToBoolBlock)filterFunction
+-(NSDictionary *)filteredDictionaryUsingBlock:(TupleToBoolBlock)filterFunction
 {
-    return [NSDictionary dictionaryWithTuples:[self.tuples filter:^BOOL(id object, int index) {
+    return [NSDictionary dictionaryWithTuples:[self.tuples filteredArrayUsingBlock:^BOOL(id object, NSUInteger index) {
         return filterFunction((Tuple*)object);
     }]];
 }
@@ -56,7 +56,7 @@
 
 -(NSArray *)tuples
 {
-    return [self.allKeys map:^id(id object, int index) {
+    return [self.allKeys mappedArrayUsingBlock:^id(id object, NSUInteger index) {
         return [Tuple tupleWithValue:self[object] forKey:(id<NSCopying,NSObject>)object];
     }];
 
@@ -77,7 +77,7 @@
 
 @implementation NSArray (Map)
 
--(NSArray *)map:(ObjectAndIndexToObjectBlock)mapFunction
+-(NSArray *)mappedArrayUsingBlock:(ObjectAndIndexToObjectBlock)mapFunction
 {
     dispatch_queue_t queue = dispatch_queue_create("map queue", DISPATCH_QUEUE_CONCURRENT);
     NSArray* result = [self map:mapFunction onQueue:queue];
@@ -110,7 +110,7 @@
 
 @implementation NSArray (MapAndJoin)
 
--(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction
+-(NSArray *)mappedAndJoinedArrayUsingBlock:(ObjectAndIndexToArrayBlock)mapFunction
 {
     
     dispatch_queue_t queue = dispatch_queue_create("map and join queue", DISPATCH_QUEUE_CONCURRENT);
@@ -141,7 +141,7 @@
 
 @implementation NSArray (Filter)
 
--(NSArray *)filter:(ObjectAndIndexToBoolBlock)filterFunction
+-(NSArray *)filteredArrayUsingBlock:(ObjectAndIndexToBoolBlock)filterFunction
 {
     dispatch_queue_t queue = dispatch_queue_create("filter queue", DISPATCH_QUEUE_CONCURRENT);
     NSArray* result = [self filter:filterFunction onQueue:queue];
@@ -208,7 +208,7 @@
     NSUInteger count = self.count;
     id* results = malloc(count * sizeof(id));
     memset(results, 0, count * sizeof(id));
-    __block int lowest = INT_MAX;
+    __block unsigned long lowest = ULONG_MAX;
     dispatch_apply(count, queue, ^(size_t index)
     {
         if(index < lowest)
