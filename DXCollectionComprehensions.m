@@ -121,7 +121,7 @@
 
 -(NSArray *)mapAndJoin:(ObjectAndIndexToArrayBlock)mapFunction onQueue:(dispatch_queue_t)queue
 {
-    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:self.count];
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:self.count];
     
     NSArray* mapped = [self map:mapFunction onQueue:queue];
     
@@ -129,10 +129,7 @@
     {
         [result addObjectsFromArray:array];
     }
-    
-    NSArray* retVal = [NSArray arrayWithArray:result];
-    [result release];
-    return retVal;
+    return result;
 }
 
 @end
