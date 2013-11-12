@@ -51,7 +51,9 @@
 
 -(NSDictionary *)initWithTuples:(NSArray *)tuples
 {
-    return [[NSDictionary alloc] initWithObjects:[tuples valueForKey:@"value"] forKeys:[tuples valueForKey:@"key"]];
+    // we use [self initWithObjects...] instead of [super initWithObjects...] because we are not a subclass of NSDictionary, we are a category
+    self = [self initWithObjects:[tuples valueForKey:@"value"] forKeys:[tuples valueForKey:@"key"]];
+    return self;
 }
 
 -(NSArray *)tuples
